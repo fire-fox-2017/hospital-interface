@@ -26,6 +26,14 @@ class Hospital {
     return false;
   }
 
+  getUser(username, password) {
+    for (let i = 0 ; i < this.employees.length ; i++) {
+      if (this.employees[i].username == username && this.employees[i].password == password)
+        return this.employees[i];
+    }
+    return null;
+  }
+
 }
 
 class Patient {
@@ -119,6 +127,8 @@ let ask_for_pass = false;
 
 let username = "";
 let password = "";
+let user = null;
+let user_input = '0';
 rl.on('line', (input) => {
   // find username
 
@@ -140,13 +150,44 @@ rl.on('line', (input) => {
     if (hospital.checkPassword(username, input)) {
       console.log("password correct");
       is_password_valid = true;
+      password = input;
+      // get the employee with the correct username and password
+      user = hospital.getUser(username, password);
     }
     else {
       rl.setPrompt("Please enter your password:");
       rl.prompt();
     }
   } else if (is_username_valid && is_password_valid) {
-    console.log("hahaha");
+
+    if(user_input == "0") {
+      console.log(`-------------------------------------------------------------`);
+      console.log(`Welcome, ${user.name}. Your access level is: ${user.position}`);
+      console.log(`-------------------------------------------------------------`);
+      console.log("What would you like to do?");
+
+      if(user.position == 'ADMIN') {
+        console.log(`(1) Add Employee`);
+      }
+
+      // console.log("user input: ", input);
+      user_input = input;
+      // console.log(typeof input);
+      rl.setPrompt("Your input: ");
+      rl.prompt();
+    }
+   else {
+     console.log("here")
+     if(input == "1") {
+       console.log("User choose 1");
+       user_input = "0";
+     }
+     else {
+       console.log("Wrong input");
+       user_input = "0";
+     }
+   }
+
   }
 
 
