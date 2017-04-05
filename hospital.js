@@ -6,6 +6,10 @@ class Hospital {
     this.location = location
   }
 
+  addEmployee(new_employee) {
+    this.employees.push(new_employee);
+  }
+
   addPatients(name, diagnosis) {
 
   }
@@ -26,13 +30,30 @@ class Hospital {
     return false;
   }
 
-  getUser(username, password) {
+  getUser(username) {
     for (let i = 0 ; i < this.employees.length ; i++) {
-      if (this.employees[i].username == username && this.employees[i].password == password)
+      if (this.employees[i].username == username)
         return this.employees[i];
     }
     return null;
   }
+
+  listEmployees() {
+    console.log("Employees");
+    console.log("============");
+    for (let i = 0 ; i < this.employees.length ; i++) {
+      console.log(`${i+1}. ${this.employees[i].name} ${this.employees[i].position} ${this.employees[i].username}`)
+    }
+  }
+
+  listPatients() {
+    console.log("Patients");
+    console.log("============");
+    for (let i = 0 ; i < this.patients.length ; i++) {
+      console.log(`${i+1}. ${this.patients[i].id} ${this.patients[i].name} ${this.patients[i].diagnosis}`)
+    }
+  }
+
 
 }
 
@@ -118,8 +139,6 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.setPrompt("Please enter your username: ");
-rl.prompt();
 
 let is_username_valid = false;
 let is_password_valid = false;
@@ -131,6 +150,115 @@ let user = null;
 let user_input = '0';
 
 let user_input2 = "";
+
+
+function begin() {
+  rl.question("Please enter your username: ", (input) => {
+    if (hospital.isUsernameExist(input)) {
+      username = input;
+      askPassword(username);
+    }
+    else {
+      console.log("Invalid username");
+      askUsername();
+    }
+  });
+
+}
+
+function askPassword(username) {
+  rl.question("Please enter your password: ", (input) => {
+    if (hospital.checkPassword(username, input)) {
+      console.log("hore");
+      //get user
+      user = hospital.getUser(username);
+      displayMenu(user);
+
+
+    }
+    else {
+      askPassword(username);
+    }
+  });
+}
+
+function displayMenu(user) {
+  console.log();
+  displayHeader(user);
+
+  if(user.position == 'ADMIN') {
+    displayMenuAdmin();
+  }
+
+
+  // ask for input
+  askMenuInput();
+}
+
+function displayHeader(user) {
+  console.log(`-------------------------------------------------------------`);
+  console.log(`Welcome, ${user.name}. Your access level is: ${user.position}`);
+  console.log(`-------------------------------------------------------------`);
+  console.log("What would you like to do?");
+}
+
+function displayMenuAdmin() {
+  let menu = "(1) List Employees\n(2) Add New Doctor\n(3) List Patients\n(4) Add New Patient";
+  console.log(menu);
+}
+
+function askMenuInput() {
+  rl.question("Your input: ", (input) => {
+    console.log(`User ${user.username} entered: "${input}"`);
+    if(user.position == "ADMIN") {
+      if(input == "1") {
+        hospital.listEmployees();
+        displayMenu(user);
+      }
+      else if(input == "2") {
+        askAddEmployee();
+      }
+      else if(input == "3") {
+        hospital.listPatients();
+        displayMenu(user);
+      }
+      else {
+        console.log("*** Invalid Input.");
+      }
+    }
+
+
+    askMenuInput();
+  });
+}
+
+function askAddEmployee() {
+  console.log("Enter this information");
+  let ae_name = "";
+  let ae_position = "";
+  let ae_username = "";
+  let ae_password = "";
+  rl.question("Name: ", (input) => {
+    ae_name = input;
+    rl.question("Username: ", (input) => {
+      ae_username = input;
+      rl.question("Password: ", (input) => {
+        ae_password = input;
+        hospital.addEmployee(new Doctor(ae_name, ae_username, ae_password))
+        console.log(`Added new Doctor "${ae_name}"`);
+        displayMenu(user);
+      });
+    });
+  });
+}
+
+
+begin();
+
+/*
+rl.setPrompt("Please enter your username: ");
+rl.prompt();
+
 
 rl.on('line', (input) => {
   // find username
@@ -201,7 +329,7 @@ rl.on('line', (input) => {
 
 
 });
-
+*/
 
 
 
