@@ -129,6 +129,9 @@ let username = "";
 let password = "";
 let user = null;
 let user_input = '0';
+
+let user_input2 = "";
+
 rl.on('line', (input) => {
   // find username
 
@@ -167,7 +170,8 @@ rl.on('line', (input) => {
       console.log("What would you like to do?");
 
       if(user.position == 'ADMIN') {
-        console.log(`(1) Add Employee`);
+        console.log(`(1) Add New Employee`);
+        console.log(`(2) Add New Patient`);
       }
 
       // console.log("user input: ", input);
@@ -178,9 +182,12 @@ rl.on('line', (input) => {
     }
    else {
      console.log("here")
-     if(input == "1") {
+     if(user.position == 'ADMIN' && input == "1") {
        console.log("User choose 1");
        user_input = "0";
+
+       rl.setPrompt("Enter Position, Name, Username, Password ");
+       rl.prompt();
      }
      else {
        console.log("Wrong input");
