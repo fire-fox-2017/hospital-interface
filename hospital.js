@@ -23,3 +23,49 @@ class Employee {
     this.password = password
   }
 }
+
+
+class Process {
+  constructor() {
+    this.interface = new Interface();
+
+  }
+
+  initApp() {
+    this.interface.title();
+
+  }
+
+  authentUser() {
+
+  }
+
+
+
+}
+
+
+
+
+class Interface {
+  constructor() {
+
+  }
+
+  title() {
+    console.log("WELCOME to FIREFOX HOSPITAL");
+    console.log("---------------------------");
+  }
+
+
+
+
+}
+
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: "> ";
+});
