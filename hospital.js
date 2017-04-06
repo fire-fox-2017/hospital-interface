@@ -66,6 +66,11 @@ class Hospital {
       }
     }
   }
+  validateAdmin(username){
+    if(this.findPosition(username) === 'Admin') {
+      return true
+    }
+  }
   validateDoctorOrAdmin(username){
     if(this.findPosition(username) === 'Doctor' || this.findPosition(username) === 'Admin') {
       return true
@@ -104,13 +109,50 @@ class Hospital {
     }
     console.log(`----------------------------------------------------------------`);
   }
+  listEmployees(){
+    console.log(`----------------------------------------------------------------`);
+    console.log(`Name | Position`)
+    for (let i = 0; i < this.employees.length ; i++){
+      console.log(`${this.employees[i].name} | ${this.employees[i].position}`)
+    }
+    console.log(`----------------------------------------------------------------`);
+  }
+  viewEmployee(name){
+    console.log(`----------------------------------------------------------------`);
+    console.log(`Name | Position`)
+    for (let i = 0; i < this.employees.length ; i++){
+      if(this.employees[i].name === name){
+        console.log(`${this.employees[i].name} | ${this.employees[i].position}`)
+      }
+    }
+    console.log(`----------------------------------------------------------------`);
+  }
+  addEmployee(name,position,username,password){
+    var employee = new Employee(name,position,username,password)
+    this.employees.push(employee)
+    console.log('Employee has been successfully added!')
+    console.log(`----------------------------------------------------------------`);
+  }
+  removeEmployee(name){
+    for (let i = 0; i < this.employees.length ; i++){
+      if(this.employees[i].name === name){
+        this.employees.splice(i,1)
+        console.log('Employee has been successfully removed!')
+      }
+    }
+    console.log(`----------------------------------------------------------------`);
+  }
   displayMenu(username){
     console.log('Options:')
     console.log('1 list_patients')
     console.log('2 view_patient <patient_id>')
     console.log('3 add_patient <patient_name> <diagnosis>')
     console.log('4 remove_patient <patient_id>')
-    console.log('5 logout')
+    console.log('5 list_employees')
+    console.log('6 view_employee <employee_name>')
+    console.log('7 add_employee <name> <position> <username> <password>')
+    console.log('8 remove_employee <employee_name')
+    console.log('0 logout')
     rl.question('What would you like to do? ', (line) => {
       if (line.trim() === '1'){
         if (this.validateDoctorOrAdmin(username)){
@@ -151,7 +193,46 @@ class Hospital {
           console.log(`----------------------------------------------------------------`);
           return this.displayMenu(username)
         }
-      } else if (line.trim() === '5'){
+      } if (line.trim() === '5'){
+        if (this.validateAdmin(username)){
+          this.listEmployees()
+          return this.displayMenu(username)
+        } else {
+          console.log('You do not have access to this feature')
+          console.log(`----------------------------------------------------------------`);
+          return this.displayMenu(username)
+        }
+      } else if (line.trim()[0] === '6'){
+        if (this.validateAdmin(username)){
+          line = line.split(" ")
+          this.viewEmployee(line[1])
+          return this.displayMenu(username)
+        } else {
+          console.log('You do not have access to this feature')
+          console.log(`----------------------------------------------------------------`);
+          return this.displayMenu(username)
+        }
+      } else if (line.trim()[0] === '7'){
+        if (this.validateAdmin(username)){
+          line = line.split(" ")
+          this.addEmployee(line[1],line[2],line[3],line[4])
+          return this.displayMenu(username)
+        } else {
+          console.log('You do not have access to this feature')
+          console.log(`----------------------------------------------------------------`);
+          return this.displayMenu(username)
+        }
+      } else if (line.trim()[0] === '8'){
+        if (this.validateAdmin(username)){
+          line = line.split(" ")
+          this.removeEmployee(line[1])
+          return this.displayMenu(username)
+        } else {
+          console.log('You do not have access to this feature')
+          console.log(`----------------------------------------------------------------`);
+          return this.displayMenu(username)
+        }
+      } else if (line.trim() === '0'){
         console.log('You have logged out successfully')
         return this.login()
       }
