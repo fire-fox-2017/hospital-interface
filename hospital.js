@@ -36,7 +36,11 @@ class Hospital {
 
   checkUserName(userInput) {
     for(var i = 0; i < this.employees.length; i++) {
-          if(userInput === this.employees[i].username) {
+      if(userInput !== this.employees[i].username) {
+        console.log(`Username tidak tersedia!`);
+        this.userLogin();
+      }
+          else if(userInput === this.employees[i].username) {
             this.employeesUserName = this.employees[i].username;
             this.role = this.employees[i].role;
             this.employessPass = this.employees[i].password;
@@ -194,8 +198,12 @@ class Hospital {
     var newEmployeePos;
     var newEmployeeUserName;
     var newEmployeePass;
-
-    if(this.role === 'adm') {
+    
+    if(this.role === 'ob') {
+      console.log(`\nYOU CAN'T ACCESS PATIENT DETAILS\n`);
+      this.listMenu();
+    }
+    else if(this.role === 'adm') {
       console.log(`Welcome ${this.employees[this.employeesIdx].name}! As an admin you can add employee to the Hospital.`);
       rl.question(`First, enter the employee name: `, (userInput) => {
         newEmployeeName = userInput;
@@ -243,7 +251,11 @@ class Hospital {
 
 
   listEmployee() {
-    if(this.role = 'adm') {
+    if(this.role === 'ob') {
+      console.log(`\nYOU CAN'T ACCESS PATIENT DETAILS\n`);
+      this.listMenu();
+    }
+    else if(this.role = 'adm') {
       console.log(`\n====EMPLOYEE DATABASE====\n`);
       for(var i = 0; i < this.employees.length; i++) {
         console.log(`${i + 1}. ${this.employees[i].role} ${this.employees[i].name}`)
