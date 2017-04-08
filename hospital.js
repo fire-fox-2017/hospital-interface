@@ -43,19 +43,22 @@ class Process {
   constructor(hospital) {
     this.hospital = hospital;
     this.employees = this.hospital.employees;
+    this.patients = this.hospital.patients;
     this.user = "";
     this.access_level = "";
     this.menuList = ["list_patients                                         to show the patients list",
                      "view_records <patient_id>                             to show a patient's record",
                      "add_record <patient_id>                               to add record to a patient",
                      "remove_record <patient_id> <record_id>                to remove a record of a patient",
-                     "add_employee <name> <position> <username> <password>  to add an employee to the system"];
+                     "add_employee <name> <position> <username> <password>  to add an employee to the system",
+                     "log_out                                               to stop using the terminal"];
+    this.border = "--------------------------------------------------------------------------------------";
   }
 
 
   initApp() {
-    console.log("WELCOME to " + this.hospital.name.toUpperCase() + " HOSPITAL");
-    console.log("------------------------------------------------");
+    console.log("\nWELCOME to " + this.hospital.name.toUpperCase() + " HOSPITAL");
+    console.log(this.border);
     this.authentUser();
   }
 
@@ -84,16 +87,16 @@ class Process {
   }
 
   welcome() {
-    console.log(`------------------------------------------------`);
+    console.log(this.border);
     console.log(`Welcome, ${this.user}. Your access level is: ${this.access_level.toUpperCase()}`);
-    console.log(`------------------------------------------------`);
+    console.log(this.border);
     this.menu();
   }
 
   menu() {
     let question = `What would you like to do?`;
     let optionTitle = `Options: `;
-    let fullMenu = this.menuList.length;
+    let fullMenu = this.menuList.length - 1;
     let options = 0;
     if (this.access_level === "admin") {
       console.log(question);
@@ -115,7 +118,48 @@ class Process {
     for (let i = 0; i < options; i++) {
       console.log(this.menuList[i]);
     }
-    process.exit();
+    console.log(this.menuList[fullMenu]);
+    console.log(this.border);
+    this.menuSelect();
+  }
+  
+  menuSelect() {
+	rl.question("> ", (selection) => {
+	  let command = selection.split(" ");
+	  if (command[0] === "list_patients") {
+		this.listPatients();
+	  } else if (command[0] === "log_out") {
+		this.logOut();
+	  } else if (command[0] === "view_records") {
+		this.viewRecord(Number(command[1]));
+	  }
+    });
+  }
+  
+  listPatients() {
+	console.log(this.patients);
+	console.log("\n");
+	this.menu();
+  }
+  
+  viewRecord(patientID) {
+	let index = this.findPatientIndex(patientID);
+	if (index !== null) {
+	  console.log(this.patients[index]);
+	  console.log("\n");
+	  this.menu();
+	} else {
+	  console.log(`Patient ID = ${patientID} cannot be found in the database.`);
+	  console.log("\n");
+	  this.menu();
+	}
+  }
+  
+  logOut() {
+	console.log(this.border);
+	console.log(`Thank you for using ${this.hospital.name.toUpperCase()} HOSPITAL terminal, we hope to see you soon.`);
+	console.log(this.border);
+	process.exit();
   }
 
   userCheck(username) {
@@ -139,6 +183,18 @@ class Process {
     }
     return found;
   }
+  
+  findPatientIndex(patientID) {
+	let index = null;
+	for (let i = 0; i < this.patients.length; i++) {
+      if (this.patients[i].id === patientID) {
+		index = i;
+	  }
+	}
+	return index;
+  }
+  
+  
 
 
 
