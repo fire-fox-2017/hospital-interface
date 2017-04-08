@@ -20,13 +20,24 @@ class Hospital {
     // delete employee with username
     for (let i = 0 ; i < this.employees.length ; i++) {
       if(this.employees[i].username == username) {
-        console.log(`${i} ${this.employees[i].name}, ${this.employees[i].username}`)
+        // console.log(`${i} ${this.employees[i].name}, ${this.employees[i].username}`)
         this.employees.splice(i,1);
-        console.log(this.employees);
-        break;
+        // console.log(this.employees);
+        return true;
       }
     }
+    return false;
+  }
 
+  deletePatient(patient_id) {
+    for (let i = 0 ; i < this.patients.length ; i++) {
+      if(this.patients[i].id == patient_id) {
+        this.patients.splice(i,1);
+
+        return true;
+      }
+    }
+    return false;
   }
 
   isUsernameExist(username) {
@@ -175,7 +186,7 @@ function begin() {
     }
     else {
       console.log("Invalid username");
-      askUsername();
+      begin();
     }
   });
 
@@ -192,10 +203,16 @@ function askPassword(username) {
 
     }
     else {
+      console.log("Invalid Password");
       askPassword(username);
     }
   });
 }
+
+function clear_screen() {
+  console.log("\x1B[2J");
+}
+
 
 function displayMenu(user) {
   console.log();
@@ -205,8 +222,11 @@ function displayMenu(user) {
     displayMenuAdmin();
   } else if(user.position == 'DOCTOR') {
       displayMenuDoctor();
+  } else if(user.position == 'RECEPTIONIST') {
+      displayMenuReceptionist();
+  } else if(user.position == 'OFFICEBOY') {
+      displayMenuOFFICEBOY();
   }
-
 
 
   // ask for input
@@ -221,21 +241,37 @@ function displayHeader(user) {
 }
 
 function displayMenuAdmin() {
-  let menu = "(1) List Employees\n(2) Add New Doctor\n(3) List Patients\n(4) Add New Patient\n(5) Delete Employee";
+  let menu = "(1) List Employees\n(2) Add New Doctor\n(3) List Patients\n(4) Add New Patient\n(5) Delete Employee\n(6) Delete Patient\n(0) Exit";
   console.log(menu);
 }
 
 function displayMenuDoctor() {
-  let menu = "(1) List Patients\n(2) Add New Patient";
+  let menu = "(1) List Patients\n(2) Add New Patient\n(3) Delete Patient\n(0) Exit";
   console.log(menu);
 }
 
+function displayMenuReceptionist() {
+  let menu = "(1) List Employees\n(2) List Patients\n(0) Exit";
+  console.log(menu);
+}
+
+function displayMenuOFFICEBOY() {
+  let menu = "Sorry, you don't have access to this system\n(0) Exit";
+  console.log(menu);
+}
 
 function askMenuInput() {
   rl.question("Your input: ", (input) => {
     console.log(`User ${user.username} entered: "${input}"`);
+    if(input == "0") {
+      exit();
+    }
+    else {
+
+
     if(user.position == "ADMIN") {
       if(input == "1") {
+        clear_screen();
         hospital.listEmployees();
         displayMenu(user);
       }
@@ -243,6 +279,7 @@ function askMenuInput() {
         askAddEmployee();
       }
       else if(input == "3") {
+        clear_screen();
         hospital.listPatients();
         displayMenu(user);
       }
@@ -252,29 +289,67 @@ function askMenuInput() {
       else if(input == "5") {
         askDeleteEmployee();
       }
+      else if(input == "6") {
+        askDeletePatient();
+      }
       else {
         console.log("*** Invalid Input.");
       }
+      askMenuInput();
+
     }
     else if(user.position == "DOCTOR") {
 
       if(input == "1") {
+        clear_screen();
         hospital.listPatients();
         displayMenu(user);
       }
       else if(input == "2") {
         askAddPatient();
       }
+      else if(input == "3") {
+        askDeletePatient();
+      }
+      else {
+        console.log("*** Invalid Input.");
+      }
+
+      askMenuInput();
+
+    }
+    else if(user.position == "RECEPTIONIST") {
+
+      if(input == "1") {
+        clear_screen();
+        hospital.listEmployees();
+        displayMenu(user);
+      }
+      else if(input == "2") {
+        clear_screen();
+        hospital.listPatients();
+        displayMenu(user);
+      }
+      else {
+        console.log("*** Invalid Input.");
+      }
+
+      askMenuInput();
+    }
+    else if(user.position == "OFFICEBOY") {
+
+      if(input == "0") {
+        exit();
+      }
       else {
         console.log("*** Invalid Input.");
       }
     }
 
 
+  }
 
-
-
-    askMenuInput();
+    // askMenuInput();
   });
 }
 
@@ -326,13 +401,34 @@ function askDeleteEmployee() {
   rl.question("Username: ", (input) => {
     ae_username = input;
     // ijo
-    hospital.deleteEmployee(ae_username);
-    console.log(`Deleted Employee with username="${ae_username}"`);
+    if(hospital.deleteEmployee(ae_username))
+      console.log(`Deleted Employee with username="${ae_username}".`);
+    else
+      console.log(`*** Cannot delete Employee with username="${ae_username}".`)
     displayMenu(user);
 
   });
 }
 
+function askDeletePatient() {
+  console.log("Enter this information");
+  let ae_id = "";
+  rl.question("Patient ID: ", (input) => {
+    ae_id = input;
+    // ijo
+    if(hospital.deletePatient(ae_id))
+      console.log(`Deleted Patient with id="${ae_id}".`);
+    else
+      console.log(`*** Cannot delete Patient with id="${ae_id}".`)
+    displayMenu(user);
+
+  });
+}
+
+function exit() {
+  console.log("Thank you and Come Again! Bye!!");
+  rl.close();
+}
 
 
 begin();
