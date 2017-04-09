@@ -169,7 +169,7 @@ class Employee {
     rl.question(`Masukkan data nama pasien dan diagnosis : `, (data_pasien) => {
       var dataPasien = data_pasien;
       // dataPasien = dataPasien.replace(/ +/g, "");
-      dataPasien = dataPasien.split(',');
+      dataPasien = dataPasien.split(', ');
 
       var idPasien = this.getIdPasien();
 
@@ -278,7 +278,7 @@ class Admin extends Employee {
     rl.question(`Masukkan data nama karyawan, posisi, username dan password : `, (data_karyawan) => {
       var dataKaryawan = data_karyawan;
       // dataKaryawan = dataKaryawan.replace(/ +/g, "");
-      dataKaryawan = dataKaryawan.split(',');
+      dataKaryawan = dataKaryawan.split(', ');
 
       var idKaryawan = this.getId();
 
