@@ -12,7 +12,7 @@ class Hospital {
     }
     login() {
         console.log(`----------------------------------------------------------------`);
-        console.log(`Selamat Datang di Rumah Sakit ${this.name}`);
+        console.log(`Welcome to ${this.name} hospital`);
         console.log(`----------------------------------------------------------------`);
         rl.question('Please enter your username:', (answer) => {
             if (this.checkUsername(answer)) {
@@ -153,8 +153,7 @@ class Hospital {
     }
 
     addEmployee(name, position, username, password) {
-        var employee = new Employee(name, position, username, password)
-        this.employees.push(employee)
+        this.addNewEmployee(new Employee(name, position, username, password));
         console.log('Employee has been successfully added!')
         console.log(`----------------------------------------------------------------`);
     }
