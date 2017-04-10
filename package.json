@@ -1,0 +1,22 @@
+{
+  "name": "hospital-interface",
+  "version": "1.0.0",
+  "description": "",
+  "main": "hospital.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fire-fox-2017/hospital-interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fire-fox-2017/hospital-interface/issues"
+  },
+  "homepage": "https://github.com/fire-fox-2017/hospital-interface#readme",
+  "dependencies": {
+    "sqlite3": "^3.1.8"
+  }
+}
