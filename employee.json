@@ -1,0 +1,3 @@
+[{"name":"Administrator","position":"ADMIN","username":"admin","password":"admin"},
+  {"name":"Dr Suparjo","position":"DOKTER","username":"suparjo","password":"suparjo"},
+  {"name":"Bejo","position":"RESEPSIONIS","username":"bejo","password":"bejo"},{"name":"Bambang","position":"OB","username":"bambang","password":"bambang"}]
