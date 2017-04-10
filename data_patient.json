@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Uci",
+    "diagnosis": "Pusing"
+  },
+  {
+    "id": 2,
+    "name": "Arahito",
+    "diagnosis": "Demam"
+  }
+]
