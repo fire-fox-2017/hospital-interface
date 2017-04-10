@@ -354,7 +354,7 @@ class Hospital {
         var rumahSakit = new Hospital('Husada', 'jalan tebet')
         rumahSakit.addNewPatient(new Patient('1', 'cumi', 'Demam Berdarah'));
         rumahSakit.addNewPatient(new Patient('2', 'Rama', 'Kencing Manis'));
-        rumahSakit.addNewEmployee(new Employee('Indra', 'Dokter', 'indra', 'indra'));
+        rumahSakit.addNewEmployee(new Employee('Indra', 'Doctor', 'indra', 'indra'));
         rumahSakit.addNewEmployee(new Employee('Ivan', 'Admin', 'ivan', 'ivan'));
         rumahSakit.addNewEmployee(new Employee('Orang', 'OfficeBoy', 'orang', 'orang'));
         rumahSakit.login()
