@@ -1,25 +1,34 @@
-class Hospital {
-  constructor(name, location, employees, patients) {
-    this.name = name
-    this.employees = employees
-    this.patients = patients
-    this.location = location
-  }
-}
+// class Hospital {
+//   constructor(name, location, employees, patients) {
+//     this.name = name
+//     this.employees = employees
+//     this.patients = patients
+//     this.location = location
+//   }
+// }
+//
+// class Patient {
+//   constructor(id, name, diagnosis) {
+//     this.id = id
+//     this.name = name
+//     this.diagnosis = diagnosis
+//   }
+// }
+//
+// class Employee {
+//   constructor(name, position, username, password) {
+//     this.name = name
+//     this.position = position
+//     this.username = username
+//     this.password = password
+//   }
+// }
 
-class Patient {
-  constructor(id, name, diagnosis) {
-    this.id = id
-    this.name = name
-    this.diagnosis = diagnosis
-  }
-}
+"use strict"
+// write your code here
+import Controller from "./controller.js"
 
-class Employee {
-  constructor(name, position, username, password) {
-    this.name = name
-    this.position = position
-    this.username = username
-    this.password = password
-  }
-}
+var ctrl = new Controller();
+
+ctrl.initTampilan();
+ctrl.inputUsername();
