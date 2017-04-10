@@ -90,7 +90,7 @@ class Hospital {
   }
   remove_record(patient_id, record_id) {
     this.dataPatients.forEach((data) => {
-      if(data.id == patient_id){
+      if(data.id.toString() == patient_id){
         data.records.splice(record_id-1, 1)
         this.back()
       }
